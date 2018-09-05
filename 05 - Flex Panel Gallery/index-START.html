@@ -24,6 +24,7 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex; /*para poner los paneles de fotos vertical en vez de horizontal*/
     }
 
     .panel {
@@ -41,20 +42,38 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      flex: 1; /*cada uno de los paneles se va a distribuir el espacio extra que queda en la pantalla de manera homogenea*/
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;/*flex automaticamente me pone las cosas, en este caso las letras, de izquierda a derecha. esto es para alinearlas verticalmente de arriba a abajo*/
     }
 
 
-    .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
-    .panel2 { background-image:url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500); }
+    .panel1 { background-image:url(https://source.unsplash.com/wlIB1M8YTnY/1500x1500); }
+    .panel2 { background-image:url(https://source.unsplash.com/ak3qn2pdsPE/1500x1500); }
     .panel3 { background-image:url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d); }
-    .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
-    .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
+    .panel4 { background-image:url(https://source.unsplash.com/TzVN0xQhWaQ/1500x1500); }
+    .panel5 { background-image:url(https://source.unsplash.com/zMVt3FgSMd4/1500x1500); }
 
+
+    /*flex children*/
     .panel > * {
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      flex: 1 0 auto; /*para que las palabras de cada panel queden separadas una arriba, una al medio y una abajo*/
+      display: flex;
+      justify-content: center;
+      align-items: center; /*el display flex me tira las palabras para el costado izquierdo, el justify y el align es para que me queden centradas*/
     }
+
+    .panel > *:first-child {transform: translateY(-100%);} /*todos los paneles de arriba, es decir las palabras de arriba quedan escondidas porque se vna de la pantalla*/
+    .panel.open-active > *:first-child {transform: translateY(0);}
+    .panel > *:last-child {transform: translateY(100%);} /*todos los paneles de abajo, es decir las palabras de abajo quedan escondidas porque se vna de la pantalla*/
+    .panel.open-active > *:last-child {transform: translateY(0);}
+
+    /*la idea de los dos de arriba es que cuando les saco el transform, van a transicionar y a aparecer en la pantalla*/
 
     .panel p {
       text-transform: uppercase;
@@ -68,6 +87,7 @@
 
     .panel.open {
       font-size:40px;
+      flex: 5;/*flex de 5 significa que, cuando este abierto, va a ocupar 5 veces el tamaño de los demas... el flex de 1 era para que se repartan todos el tamaño de manera proporcional*/
     }
 
   </style>
@@ -75,33 +95,49 @@
 
   <div class="panels">
     <div class="panel panel1">
-      <p>Hey</p>
-      <p>Let's</p>
-      <p>Dance</p>
+      <p>Se va</p>
+      <p>A</p>
+      <p>Caer</p>
     </div>
     <div class="panel panel2">
-      <p>Give</p>
-      <p>Take</p>
-      <p>Receive</p>
+      <p>Quiero</p>
+      <p>Ver</p>
+      <p>Fuego</p>
     </div>
     <div class="panel panel3">
-      <p>Experience</p>
-      <p>It</p>
-      <p>Today</p>
+      <p>Nosotras</p>
+      <p>Si</p>
+      <p>Podemos</p>
     </div>
     <div class="panel panel4">
-      <p>Give</p>
-      <p>All</p>
-      <p>You can</p>
+      <p>Nadie</p>
+      <p>Me</p>
+      <p>Va a frenar</p>
     </div>
     <div class="panel panel5">
-      <p>Life</p>
-      <p>In</p>
-      <p>Motion</p>
+      <p>Si me</p>
+      <p>Muero</p>
+      <p>Me llevo a un par</p>
     </div>
   </div>
 
   <script>
+
+    const panels = document.querySelectorAll('.panel')
+
+    function toggleOpen (){
+      this.classList.toggle('open');
+    }
+
+
+    function toggleActive (e){
+      if (e.propertyName.includes('flex')){
+      this.classList.toggle('open-active');
+      }
+    }
+
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
 
   </script>
 
