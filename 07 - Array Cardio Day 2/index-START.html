@@ -26,15 +26,48 @@
 
     // Some and Every Checks
     // Array.prototype.some() // is at least one person 19 or older?
+
+    const isAdult = people.some(person=> {
+
+      const currentYear = (new Date()).getFullYear();
+      return currentYear - person.year >= 19;
+    });
+
+    console.log({isAdult}); //si pongo entre llaves cuando tire tru y false me dice que es lo que es true
+
     // Array.prototype.every() // is everyone 19 or older?
 
+    const allAdults = people.every(person=> {
+
+      const currentYear = (new Date()).getFullYear();
+      return currentYear - person.year >= 19;
+    });
+
+    console.log({allAdults});
+
     // Array.prototype.find()
-    // Find is like filter, but instead returns just the one you are looking for
+    // Find is like filter, but instead returns just the one you are looking for(el primero que matchea con el criterio)
     // find the comment with the ID of 823423
 
+    const comment = comments.find(comment=> comment.id === 823423);
+
+    console.log(comment);
+
     // Array.prototype.findIndex()
-    // Find the comment with this ID
+    // Find the comment with this ID, te dice en que parte del array esta
     // delete the comment with the ID of 823423
+
+    const index = comments.findIndex(comment=> comment.id === 823423);
+
+    console.log(index);
+
+    comments.splice(index, 1); //para borrar el comment del lugar 2 del array
+
+    //const newComments [
+    //  ...coments.slice(0, index),
+    //  ...coments.slice(index + 1)
+    //];
+    // para crear un nuevo array y manener tmb el viejo 
 
   </script>
 </body>
