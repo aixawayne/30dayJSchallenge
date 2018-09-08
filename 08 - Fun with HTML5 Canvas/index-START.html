@@ -6,7 +6,67 @@
 </head>
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
+
+
+
 <script>
+
+const canvas = document.querySelector('#draw');
+const ctx = canvas.getContext ('2d'); 
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+ctx.strokeStyle = '#BADA55'; // color de las lineas
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+ctx.lineWidth = 50;
+
+let isDrawing = false; //la vamos a usar para que solamente dibuje cuando tenes el mouse presionado
+let lastX = 0; //donde empieza la linea
+let lastY = 0; //donde termina la linea
+let hue = 0;
+let direction = true;
+
+function draw(e){
+	if(!isDrawing) return; //si no estan dibujando no hagas nada
+	console.log(e);
+
+	ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
+	ctx.beginPath();
+	ctx.moveTo(lastX, lastY);//start from
+	ctx.lineTo(e.offsetX, e.offsetY); //go to. Los offsets vienen del evento ya, se ven en la consola
+	ctx.stroke();
+
+	[lastX, lastY] = [e.offsetX, e.offsetY];
+
+	hue++; //el color de la linea empiezaen cero, o sea rojo. Para que vaya cambiando de color segun el arcoiris
+	if (hue >=360){
+		hue = 0;
+	} //para que cuando llegue al maximo de colores se resetee y empiece de rojo
+
+	
+	if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1){
+		direction = !direction;
+	}
+
+	if (direction){
+		ctx.lineWidth++; //incrementamos el tamaño de la linea de 0 a 100
+	} else {
+		ctx.lineWidth--;//bajamos el tamaño de la linea de 100 a 0
+	}
+}
+
+canvas.addEventListener('mousedown', (e)=> {
+	isDrawing = true;
+	[lastX, lastY] = [e.offsetX, e.offsetY]; //para que no empiece siempre desde cero cuando apoyo le mouse por primera vez
+});
+
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', ()=> isDrawing = false);
+canvas.addEventListener('mouseout', ()=> isDrawing = false);
+
 </script>
 
 <style>
