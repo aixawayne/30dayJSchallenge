@@ -8,13 +8,31 @@
 
   <script>
     // start with strings, numbers and booleans
+    /*let age = 100;
+    let age2 = age;
+    age = 200;
+
+    console.log(age, age2); //consolea 200 y 100
+
+    let name = "Aixa";
+    let name2 = name;
+    name = "batata";
+
+     console.log(name, name2);*/
+
 
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
 
     // and we want to make a copy of it.
 
+    const team = players;
+
+    console.log(team, players);
+
     // You might think we can just do something like this:
+
+    //team[3]= 'sarasa'; //te cambia tmb el array original
 
     // however what happens when we update that array?
 
@@ -25,12 +43,20 @@
     // Why? It's because that is an array reference, not an array copy. They both point to the same array!
 
     // So, how do we fix this? We take a copy instead!
+    const team2 = players.slice(); //si no le pasas parametros, te hace una copia del array original
+
 
     // one way
 
     // or create a new array and concat the old one in
+     const team3 = [].concat(players);
 
     // or use the new ES6 Spread
+    const team4 = [...players];
+    team4[3] = 'lalalalala';
+    console.log(team4);
+
+    const team5 = Array.from(players);
 
     // now when we update it, the original one isn't changed
 
@@ -43,12 +69,32 @@
     };
 
     // and think we make a copy:
+    //const captain = person;
+    //captain.numer = 99;
 
     // how do we take a copy instead?
+    const cap2 = Object.assign({}, person, {number: 99, age:50});
+    console.log(cap2);
 
     // We will hopefully soon see the object ...spread
+    //const cap3 = {...person};
 
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+    const aixa ={
+      name: 'aixa',
+      age: '27',
+      ama: {
+        animales: 'gatitos',
+        comida: 'milanesas'
+      }
+    };
+
+    console.clear();
+    console.log(aixa);
+
+    const dev = Object.assign({}, aixa);
+
+    const dev2 = JSON.parse(JSON.stringify(aixa));
 
   </script>
 
